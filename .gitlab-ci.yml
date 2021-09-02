@@ -161,6 +161,7 @@ github:
   only:
     refs:
       - feature/gitlab-ci
+  dependencies: []
   before_script:
     - echo "2048 SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8 github.com (RSA)" >> ~/.ssh/known_hosts
     - echo ${SSH_PRIVKEY} | base64 -d > id_iisgit_github
@@ -176,11 +177,9 @@ github:
     - remote="git@github.com:noah95/snitch-llvm.git"
     - remote_branch=main
     - local_branch=feature/gitlab-ci
-
-    - git remote add -f upstream ${remote}
-    - git fetch upstream
+    - git remote add upstream ${remote}
+    - git fetch -n --depth 50 upstream ${remote_branch}
     - git checkout ${local_branch}
-    # - rm -rf .gitlab-ci.d .gitlab .gitlab-ci.yml
     - git push upstream ${local_branch}:${remote_branch}
 
 ########################################
